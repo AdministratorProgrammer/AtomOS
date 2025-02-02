@@ -1,0 +1,17 @@
+-----------[en]-----------
+Here is an example of the operating system build name "gn1-vn0.0.0.0.0.0.0-pe".
+"gn" - generation number - this is the operating system generation number (official version number).
+"vn" - version number - this is the build number of the operating system in a particular generation (depends on "gn").
+
+"pe" - preview edition.
+"re" - release edition.
+--------------------------
+
+-----------[ru]-----------
+Вот пример имени сборки операционной системы "gvn1-vn0.0.0.0.0.0-pe".
+"gn" - номер поколения - это номер поколения операционной системы (официальный номер версии).
+"vn" - номер версии - версия сборки операционной системы конкретного поколения (зависит от "gn").
+
+"pe" - предварительное издание.
+"re" - выпускное издание.
+--------------------------

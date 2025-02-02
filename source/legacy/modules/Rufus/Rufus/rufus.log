@@ -1,0 +1,33 @@
+Rufus x64 v4.6.2208 (Portable)
+Windows version: Windows 10 Pro x64 (Build 19045.3570)
+Syslinux versions: 4.07/2013-07-25, 6.04/pre1
+Grub versions: 0.4.6a, 2.12
+System locale ID: 0x0419 (ru-RU)
+Will use default UI locale 0x0419
+SetLGP: Successfully set NoDriveTypeAutorun policy to 0x0000009E
+Localization set to 'ru-RU'
+Notice: The ISO download feature has been deactivated because 'Check for updates' is disabled in your settings.
+Found 517 revoked UEFI bootloaders from embedded list
+Found 2351 additional revoked UEFI bootloaders from this system's SKUSiPolicy.p7b
+Found USB 2.0 device 'Generic STORAGE DEVICE USB Device' (05E3:0751)
+Device eliminated because it appears to contain no media
+Found USB 2.0 device 'QUMO QUMO USB Device' (FFFF:5678)
+1 device found
+No volume information for drive 0x83
+Disk type: Removable, Disk size: 4ГБ, Sector size: 512 bytes
+Cylinders: 489, Tracks per cylinder: 255, Sectors per track: 63
+Partition type: MBR, NB Partitions: 1
+Disk ID: 0x18A5D419
+Drive has a Zeroed Master Boot Record
+Partition 1:
+  Type: FAT32 LBA (0x0c)
+  Detected File System: (Unrecognized)
+  Size: 3.7 GB (4025450496 bytes)
+  Start Sector: 2048, Boot: Yes
+Will reuse 'C:\Users\User\Desktop\Premility\AtomOS\source\legacy\modules\Rufus\\Rufus\diskcopy.dll' for MS-DOS installation
+Found USB 2.0 device 'Generic STORAGE DEVICE USB Device' (05E3:0751)
+Device eliminated because it appears to contain no media
+0 devices found
+Found USB 2.0 device 'Generic STORAGE DEVICE USB Device' (05E3:0751)
+Device eliminated because it appears to contain no media
+0 devices found
