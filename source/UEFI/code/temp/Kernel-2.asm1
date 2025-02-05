@@ -1,0 +1,117 @@
+org 500h
+
+mov ah, 00h ; Функция выбора видеорежима
+mov al, 13h ; Номер видеорежима
+int 10h
+
+INIT:
+
+mov ax, 0xA000
+mov es, ax
+
+call PS2__write_mouse_interrupt
+call PS2__init_mouse
+
+xor bx, bx
+xor dx, dx
+
+PROGRAM:
+
+; Установка пикселя (x, y) с цветом
+mov al, 0x0C           ; цвет пикселя (например, красный)
+mov bx, [MOUSE_X]      ; x-координата
+mov dx, [MOUSE_Y]      ; y-координата
+call VIDEO__Set_Pixel
+
+jmp PROGRAM
+
+VIDEO__Set_Pixel:
+	; Вычисляем адрес для пикселя
+	; Адрес = y * ширина_экрана + x
+	; в режиме 13h ширина экрана = 320
+	push ax              ; сохраняем AX в стек
+	mov cx, 320          ; ширина экрана
+	mul dx               ; умножаем Y на ширину экрана
+	add ax, bx           ; добавляем X
+	mov di, ax           ; сохраняем адрес в DI
+	pop ax               ; возвращаем AX из стека
+
+	mov [es:di], al      ; устанавливаем пиксель
+	ret
+
+; Обработчик мыши
+PS2_MOUSE__handler:
+    ; Получение данных от мыши
+    ;pushad
+    xor ax, ax
+    in al, 0x64
+    test al, 100000b
+    jne .PS2_MOUSE__handler_end
+
+    in al, 0x60            ; 1-й байт: Информационный байт
+
+    not al                 ; Инвертируем информационный байт
+
+    mov cl, al             ; Сохраняем в CL информационный байт(inverted)
+    SHL al, 3
+    SHR al, 7
+    mov ah, al             ; Заносим значение знака(+/-) координаты X в AH
+    mov bh, ah             ; Переносим значение знака из AH в BH
+
+    in al, 0x60            ; 2-й байт: флаг и изменения по X
+    mov bl, al
+
+    mov al, cl             ; Возвращаем из CL информационный байт(inverted)
+    SHL al, 2
+    SHR al, 7
+    mov ah, al             ; Заносим значение знака(+/-) координаты Y в AH
+    mov ch, ah             ; Переносим значение знака из AH в CH
+
+    in al, 0x60            ; 3-й байт: изменения по Y
+    mov cl, al
+
+    .PS2_MOUSE__handler_end:
+    ;popad
+    ; Возврат из обработчика прерывания
+    iret
+
+; Инициализация мыши
+PS2__init_mouse:
+    ; Отправим инициализирующую команду
+    ; Настройка для работы с мышью
+    pushad
+    mov al, 0xA8
+    out 0x64, al  ; Включение первого порта мыши
+
+    mov al, 0xD4
+    out 0x64, al  ; Указываем, что обращение по PS/2 идёт именно к мышке
+
+    mov al, 0xF6
+    out 0x60, al  ; Установка стандартных настроек мышки
+
+    mov al, 0xD4
+    out 0x64, al  ; Указываем, что обращение по PS/2 идёт именно к мышке
+
+    mov al, 0xF4
+    out 0x60, al  ; Включение отправки отчётов
+    popad
+    ret
+
+PS2__write_mouse_interrupt:
+    mov ax, cs
+    mov ds, ax
+    cli
+    mov ax, PS2_MOUSE__handler
+    mov [0x002C * 4], ax
+    mov [0x002C * 4 + 2], cs
+    sti
+    ret
+
+
+;===========================
+MOUSE_X DW 0
+MOUSE_Y DW 0
+;===========================
+
+
+times 512-($-500h) db 0
