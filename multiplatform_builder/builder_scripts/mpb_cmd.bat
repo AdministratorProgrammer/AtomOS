@@ -1,3 +1,9 @@
+::  Part of "AtomOS - Multiplatform Builder"                              ::
+::  (mpb_cmd script)                                                      ::
+::                                                                        ::
+::  Version of the product for presentation at the competition.           ::
+::  All rights reserved.                                                  ::
+
 setlocal EnableExtensions EnableDelayedExpansion
 chcp 65001
 cls
@@ -41,11 +47,11 @@ goto :command_line
 cls
 goto :command_line
 
-:exit_command_handler
-exit /b 200
-
 :build_command_handler
 exit /b 100
+
+:exit_command_handler
+exit /b 200
 
 :unknown_error_message
 echo.
@@ -56,9 +62,11 @@ exit /b
 endlocal
 
 
-:: Exit codes:
-:: build_command_handler  :   100
-:: exit_command_handler   :   200
+:: ---------------------------------------------------------------------- ::
+:: ---     Exit codes:                                                    ::
+:: ---     build_command_handler  :   100                                 ::
+:: ---     exit_command_handler   :   200                                 ::
+:: ---------------------------------------------------------------------- ::
 
 ::  AtomOS - Multiplatform Builder                                        ::
 ::  Copyright © 2025 leexund                                              ::
