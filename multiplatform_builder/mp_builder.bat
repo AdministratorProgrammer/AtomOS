@@ -24,21 +24,38 @@ rem --------- BUILDER MODULES ---------
 set mpb_cmd=%BUILDER_SCRIPTS_PATH%\mpb_cmd.bat
 set mpb_build=%BUILDER_SCRIPTS_PATH%\mpb_build.bat
 rem ---------- DEPENDENCIES -----------
+set DEPENDENCIES_PATH=%CD%\dependencies
 
 
 call %mpb_cmd%
-if %ERRORLEVEL%==100 (
-	goto :build_os
-) else if %ERRORLEVEL%==200 (
+set cmd_exit_code=%ERRORLEVEL%
+
+if %cmd_exit_code% GEQ 100 (
+	if %cmd_exit_code% LEQ 199 (
+			if %cmd_exit_code% == 101 (
+				set ARCH="x86"
+			) else if %cmd_exit_code% == 102 (
+				set ARCH="x64"
+			) else (
+				:: Reboot MPB
+				echo.
+				echo Rebooting Multiplatform Builder...
+				timeout /t 1 /nobreak >nul
+				goto :start
+			)
+			goto build_os
+	)
+) else if %cmd_exit_code%==200 (
 	goto :exit_handler
 )
 
 goto :exit_handler
 
 :build_os
+
 mkdir %TEMP_PATH%
 
-call %mpb_build% %SOURCE_PATH% %TEMP_PATH%
+call %mpb_build% %SOURCE_PATH% %TEMP_PATH% %ARCH% %DEPENDENCIES_PATH%
 
 del /Q /S %TEMP_PATH%
 rmdir %TEMP_PATH%
@@ -48,4 +65,4 @@ goto start
 exit /b
 
 ::  AtomOS - Multiplatform Builder                                        ::
-::  Copyright © 2025 leexund                                              ::
+::  Copyright © 2026 leexund                                              ::
